@@ -1,0 +1,58 @@
+{# templates/inpost/search.html.twig #}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Wyszukiwarka punktów Inpost</title>
+</head>
+<body>
+<h1>Wyszukiwarka punktów Inpost</h1>
+
+{{ form_start(form) }}
+<div>
+    {{ form_label(form.street, 'Ulica:') }}
+    {{ form_widget(form.street) }}
+    {{ form_errors(form.street) }}
+</div>
+
+<div>
+    {{ form_label(form.city, 'Miasto:') }}
+    {{ form_widget(form.city) }}
+    {{ form_errors(form.city) }}
+</div>
+
+<div>
+    {{ form_label(form.postalCode, 'Kod pocztowy:') }}
+    {{ form_widget(form.postalCode) }}
+    {{ form_errors(form.postalCode) }}
+</div>
+
+{% if form.name is defined %}
+    <div>
+        {{ form_label(form.name, 'Nazwa:') }}
+        {{ form_widget(form.name) }}
+        {{ form_errors(form.name) }}
+    </div>
+{% endif %}
+
+<button type="submit">Szukaj</button>
+{{ form_end(form) }}
+
+{% if error %}
+    <div class="error">
+        {{ error }}
+    </div>
+{% endif %}
+
+{% if points %}
+    <h2>Wyniki wyszukiwania:</h2>
+    <p>Liczba punktów: {{ points.count }}</p>
+
+    <ul>
+        {% for item in points.items %}
+            <li>Punkt {{ loop.index }}: {{ item.name }} {{ item.address.line1 }} {{ item.address.line2 }} </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+</body>
+</html>

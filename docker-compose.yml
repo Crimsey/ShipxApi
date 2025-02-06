@@ -1,0 +1,38 @@
+version: '3.4'
+
+services:
+  php:
+    image: dunglas/frankenphp
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    networks:
+      - platform
+    volumes:
+      - ./:/app/public
+      - caddy_data:/data
+      - caddy_config:/config
+    environment:
+      TZ: Europe/Warsaw
+      XDEBUG_MODE: debug
+      XDEBUG_CONFIG: >-
+        client_host=host.docker.internal
+        client_port=9003
+        idekey=PHPSTORM
+        remote_log=/tmp/xdebug.log
+        start_with_request=yes
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    tty: true
+
+networks:
+  platform:
+
+volumes:
+  caddy_data:
+  caddy_config:
+  db_data:
