@@ -17,7 +17,7 @@ symfony serve
 następnie do adresu który komenda podpowie dokleić suffix /inpost/search, np.:
 http://127.0.0.1:8000/inpost/search
 
-![przykladowe dzialanie](Images/example.png)
+![przykladowe dzialanie](/example.png)
 
 *Komentarz:
 * Myślę że przesadziłem z ilością Interfejsów i Abstraktów (cały folder src\Api\Resource),
