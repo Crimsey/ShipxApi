@@ -12,7 +12,9 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     && docker-php-ext-install mbstring
 
-
+# Install Symfony CLI
+RUN curl -sS https://get.symfony.com/cli/installer | bash \
+    && mv /root/.symfony*/bin/symfony /usr/local/bin/symfony
 
 # Create an alias for 'symfony console' to represent 'php bin/'
 #RUN echo "alias symfony='php bin/'" >> ~/.bashrc

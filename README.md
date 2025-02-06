@@ -1,5 +1,13 @@
 ## Zadanie rekrutacyjne
 
+* Instrukcja uruchomienia
+Jeśli lokalnie nie mamy komend php/symfony możemy uruchomić komendy:
+```
+docker compose build --no-cache
+docker compose up -d
+```
+Następne instrukcje wykonywać w kontenerze php (przy czym nawet jeśli symfony serve podpowie 127.0.0.1:8000 to użyć słowa localhost w przeglądarce)
+
 *W celu przetestowania komendy proszę w terminalu projektu wykonać:
 ```
 php bin/console shipx-api:fetch-inpost-points points <nazwa_miasta>
