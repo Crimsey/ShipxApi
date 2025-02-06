@@ -8,7 +8,7 @@ docker compose up -d
 ```
 Następne instrukcje wykonywać w kontenerze php (przy czym nawet jeśli symfony serve podpowie 127.0.0.1:8000 to użyć słowa localhost w przeglądarce)
 
-*W celu przetestowania komendy proszę w terminalu projektu wykonać:
+# W celu przetestowania komendy proszę w terminalu projektu wykonać:
 ```
 php bin/console shipx-api:fetch-inpost-points points <nazwa_miasta>
 ```
@@ -17,8 +17,8 @@ np.
 php bin/console shipx-api:fetch-inpost-points points Krasnystaw
 ```
 
-*Jeśli chodzi o drugi etap zadania:
-Proszę o uruchomienie w terminalu projektu lokalnie
+* Jeśli chodzi o drugi etap zadania:
+Proszę o uruchomienie w terminalu projektu
 ```
 symfony serve
 ```
@@ -27,13 +27,13 @@ http://127.0.0.1:8000/inpost/search
 
 ![przykladowe dzialanie](/example.png)
 
-*Komentarz:
+* Komentarz:
 * Myślę że przesadziłem z ilością Interfejsów i Abstraktów (cały folder src\Api\Resource),
 jak na zadanie przewidziane na ok. godzinę,
 ale starałem się jak najciekawiej spełnić warunek - przewidzenie rozbudowy API o kolejne metody/mapowania.
 
 
-Spodziewana przykładowa odpowiedź komendy wygląda następująco:
+* Spodziewana przykładowa odpowiedź komendy wygląda następująco:
 ```
 Dane pobrane pomyślnie!
 App\Entity\InpostPoint Object
