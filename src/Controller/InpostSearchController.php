@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
+use App\Api\InpostApiService;
 use App\Form\InpostSearchType;
-use App\Api\InpostApiClient;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,11 +11,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class InpostSearchController extends AbstractController
 {
-    private InpostApiClient $inpostApiClient;
+    private InpostApiService $inpostApiService;
 
-    public function __construct(InpostApiClient $inpostApiClient)
+    public function __construct(InpostApiService $inpostApiService)
     {
-        $this->inpostApiClient = $inpostApiClient;
+        $this->inpostApiService = $inpostApiService;
     }
 
     #[Route('/inpost/search', name: 'inpost_search')]
@@ -31,7 +31,7 @@ class InpostSearchController extends AbstractController
             $data = $form->getData();
 
             try {
-                $jsonResponse = $this->inpostApiClient->fetch('points', ['city' => $data['city']]);
+                $jsonResponse = $this->inpostApiService->fetch('points', ['city' => $data['city']]);
                 $points = json_decode($jsonResponse, true);
             } catch (\Exception $e) {
                 $error = $e->getMessage();
