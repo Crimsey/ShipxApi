@@ -54,16 +54,13 @@ class InpostApiServiceTest extends TestCase
             ->with('points', ['city' => 'Kozy'])
             ->willReturn($jsonResponse);
 
-        // Execute test
         $response = $this->apiService->fetch('points', ['city' => 'Kozy']);
 
-        // Assert
         self::assertEquals($jsonResponse, $response);
     }
 
     public function testFetchFailure(): void
     {
-        // Configure mocks
         $this->resource->method('getEndpoint')->willReturn('points');
 
         $this->resourceFactory->expects($this->once())
@@ -75,11 +72,68 @@ class InpostApiServiceTest extends TestCase
             ->method('fetch')
             ->willThrowException(new \RuntimeException('Błąd podczas pobierania danych'));
 
-        // Assert exception
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Błąd podczas pobierania danych');
 
-        // Execute test
         $this->apiService->fetch('points', ['city' => 'Kozy']);
+    }
+
+    public function fetchDataProvider(): array
+    {
+        return [
+            'empty response' => [
+                json_encode(['count' => 0, 'page' => 1, 'totalPages' => 1, 'items' => []]),
+                'points',
+                ['city' => 'A'],
+            ],
+            'single point' => [
+                json_encode([
+                    'count' => 1,
+                    'page' => 1,
+                    'totalPages' => 1,
+                    'items' => [['name' => 'XYZ01', 'address' => ['street' => 'Testowa 1', 'city' => 'TestCity']]],
+                ]),
+                'points',
+                ['city' => 'TestCity'],
+            ],
+            'multiple points' => [
+                json_encode([
+                    'count' => 2,
+                    'page' => 1,
+                    'totalPages' => 1,
+                    'items' => [
+                        ['name' => 'KZY01A', 'address' => ['street' => 'Gajowa 27', 'city' => 'Kozy']],
+                        ['name' => 'KZY01M', 'address' => ['street' => 'Bielska 57', 'city' => 'Kozy']],
+                    ],
+                ]),
+                'points',
+                ['city' => 'Kozy'],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider fetchDataProvider
+     */
+    public function testFetchWithDataProvider(string $jsonResponse, string $resourceName, array $params): void
+    {
+        $this->resource->method('getEndpoint')->willReturn($resourceName);
+
+        $this->resourceFactory->expects($this->once())
+            ->method('createResource')
+            ->with($resourceName)
+            ->willReturn($this->resource);
+
+        $this->apiClient->expects($this->once())
+            ->method('fetch')
+            ->with($resourceName, $params)
+            ->willReturn($jsonResponse);
+
+        $response = $this->apiService->fetch($resourceName, $params);
+
+        self::assertJson($response);
+        self::assertEquals($jsonResponse, $response);
+
+        self::assertArrayHasKey('count', json_decode($response, true));
     }
 }
