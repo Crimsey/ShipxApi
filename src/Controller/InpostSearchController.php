@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Api\InpostApiService;
 use App\Form\InpostSearchType;
+use App\Services\JsonHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,15 +25,14 @@ class InpostSearchController extends AbstractController
         $form = $this->createForm(InpostSearchType::class);
         $form->handleRequest($request);
 
-        $points = null;
-        $error = null;
+        $error = $fetchResult = null;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
             try {
-                $jsonResponse = $this->inpostApiService->fetch('points', ['city' => $data['city']]);
-                $points = json_decode($jsonResponse, true);
+                $fetchResult = $this->inpostApiService->fetchResource('points', ['city' => $data['city']]);
+
             } catch (\Exception $e) {
                 $error = $e->getMessage();
             }
@@ -40,7 +40,7 @@ class InpostSearchController extends AbstractController
 
         return $this->render('inpost/search.html.twig', [
             'form' => $form->createView(),
-            'points' => $points,
+            'points' => $fetchResult,
             'error' => $error ?? $form->getErrors(),
         ]);
     }

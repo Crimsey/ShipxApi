@@ -2,26 +2,22 @@
 
 namespace App\Command;
 
-use App\Api\InpostApiClient;
+
 use App\Api\InpostApiService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Serializer\SerializerInterface;
-use App\Entity\InpostPoint;
 
 #[AsCommand(name: 'shipx-api:fetch-inpost-points')]
 class FetchInpostPointsCommand extends Command
 {
-    private SerializerInterface $serializer;
     private InpostApiService $inpostApiService;
 
-    public function __construct(SerializerInterface $serializer, InpostApiService $inpostApiService)
+    public function __construct(InpostApiService $inpostApiService)
     {
         parent::__construct();
-        $this->serializer = $serializer;
         $this->inpostApiService = $inpostApiService;
     }
 
@@ -39,10 +35,10 @@ class FetchInpostPointsCommand extends Command
         $city = $input->getArgument('city');
 
         try {
-            $jsonContent = $this->inpostApiService->fetch($resource, ['city' => $city]);
-            $dataObject = $this->serializer->deserialize($jsonContent, InpostPoint::class, 'json');
+            $fetchResult = $this->inpostApiService->fetchResource($resource, ['city' => $city]);
+
             $output->writeln('<info>Dane pobrane pomyślnie!</info>');
-            $output->writeln(print_r($dataObject, true));
+            $output->writeln(print_r($fetchResult, true));
         } catch (\Exception $e) {
             $output->writeln('<error>Błąd podczas deserializacji: ' . $e->getMessage() . '</error>');
             return Command::FAILURE;

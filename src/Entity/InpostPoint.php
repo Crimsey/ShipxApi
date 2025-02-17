@@ -4,58 +4,33 @@ namespace App\Entity;
 
 class InpostPoint
 {
-    private int $count;
-    private int $page;
-    private int $totalPages;
-    private array $items;
+    private string $name;
 
-    public function getCount(): int
+    private Address $address;
+
+    public function getName(): string
     {
-        return $this->count;
+        return $this->name;
     }
 
-    public function setCount(int $count): void
+    public function setName(string $name): void
     {
-        $this->count = $count;
+        $this->name = $name;
     }
 
-    public function getPage(): int
+    /**
+     * @return Address
+     */
+    public function getAddress(): Address
     {
-        return $this->page;
+        return $this->address;
     }
 
-    public function setPage(int $page): void
+    /**
+     * @param Address $address
+     */
+    public function setAddress(Address $address): void
     {
-        $this->page = $page;
-    }
-
-    public function getTotalPages(): int
-    {
-        return $this->totalPages;
-    }
-
-    public function setTotalPages(int $totalPages): void
-    {
-        $this->totalPages = $totalPages;
-    }
-
-    public function getItems(): array
-    {
-        return $this->items;
-    }
-
-    //@todo tu sę zawahałem przez liczbę pojedynczą w zadaniu "serializer powinien przekształcić do modelu klasy następujące parametry"
-    //rozumiem że modelu 1 klasy?
-    //przyszłościowo przydałaby się oddzielna Encja dla adresu punktu InpostPointAddress i oddzielnie byśmy go serializowali
-    public function setItems(array $items): void
-    {
-        $filteredItems = [];
-        foreach ($items as $item) {
-            $filteredItems[] = [
-                'name' => $item['name'] ?? '',
-                'address' => isset($item['address']) ? ($item['address']['line1'] . ' ' . $item['address']['line2']) : '',
-            ];
-        }
-        $this->items = $filteredItems;
+        $this->address = $address;
     }
 }

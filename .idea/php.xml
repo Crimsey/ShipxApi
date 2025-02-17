@@ -9,7 +9,7 @@
   </component>
   <component name="MessDetector">
     <phpmd_settings>
-      <phpmd_by_interpreter asDefaultInterpreter="true" interpreter_id="13231355-a6fc-4af7-b71e-d7ab3da1921b" timeout="30000" />
+      <phpmd_by_interpreter asDefaultInterpreter="true" interpreter_id="174fe7c1-9ae2-4fb1-aa3d-9127795777ba" timeout="30000" />
     </phpmd_settings>
   </component>
   <component name="MessDetectorOptionsConfiguration">
@@ -29,7 +29,7 @@
   </component>
   <component name="PhpCodeSniffer">
     <phpcs_settings>
-      <phpcs_by_interpreter asDefaultInterpreter="true" interpreter_id="13231355-a6fc-4af7-b71e-d7ab3da1921b" timeout="30000" />
+      <phpcs_by_interpreter asDefaultInterpreter="true" interpreter_id="174fe7c1-9ae2-4fb1-aa3d-9127795777ba" timeout="30000" />
     </phpcs_settings>
   </component>
   <component name="PhpIncludePathManager">
